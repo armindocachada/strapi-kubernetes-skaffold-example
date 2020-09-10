@@ -1,0 +1,11 @@
+FROM strapi/strapi
+
+WORKDIR /srv/app
+RUN ls /tmp
+#COPY ./cms/package.json .
+COPY ./cms/* .
+
+#RUN yarn install
+
+#RUN strapi build
+

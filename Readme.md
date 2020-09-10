@@ -1,0 +1,1 @@
+https://strapi.io/blog/deploy-strapi-on-kubernetes-with-https

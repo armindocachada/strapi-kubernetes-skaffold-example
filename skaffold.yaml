@@ -1,0 +1,21 @@
+apiVersion: skaffold/v2beta7
+kind: Config
+build:
+  artifacts:
+  - image: example/strapi
+    context: .
+    docker:
+      dockerfile: Dockerfile_cms
+    sync:
+      infer:
+        - 'cms/*'
+#  - image: example/frontend
+#    context: ..
+#    docker:
+#      dockerfile: Dockerfile_frontend
+#    sync:
+#      infer:
+#        - 'front-end/*'
+
+deploy:
+  kustomize: {}

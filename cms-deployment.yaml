@@ -1,0 +1,78 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cms
+  labels:
+    app: cms
+spec:
+  ports:
+    - port: 1337
+  selector:
+    app: cms
+    tier: frontend
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-sc-strapi
+  labels:
+    app: cms
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1G
+---
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: cms
+  labels:
+    app: cms
+spec:
+  selector:
+    matchLabels:
+      app: cms
+      tier: frontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: cms
+        tier: frontend
+    spec:
+      containers:
+      - image: example/strapi
+        imagePullPolicy: IfNotPresent
+        name: cms
+        env:
+          - name: "DATABASE_CLIENT"
+            value: "mysql"
+          - name: "DATABASE_NAME"
+            value: "cms"
+          - name: "DATABASE_USERNAME"
+            value: "cms"
+          - name: "DATABASE_PASSWORD"
+            valueFrom:
+              secretKeyRef:
+                name: mysql-pass
+                key: password
+          - name: "DATABASE_PORT"
+            value: "3306"
+          - name: "DATABASE_HOST"
+            value: "cms-mysql"
+          - name: "APP_NAME"
+            value: "strapi-app"
+        ports:
+        - containerPort: 1337
+          name: cms
+        volumeMounts:
+          - name: strapi-volume
+            mountPath: "/persistent"
+      volumes:
+      - name: strapi-volume
+        persistentVolumeClaim:
+          claimName: pvc-sc-strapi

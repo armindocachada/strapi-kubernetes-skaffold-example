@@ -1,11 +1,13 @@
 FROM strapi/strapi
 
-WORKDIR /srv/app
-RUN ls /tmp
-#COPY ./cms/package.json .
-COPY ./cms/* .
+RUN mkdir /app
+WORKDIR /app
+COPY ./cms/package.json .
+RUN yarn install
 
-#RUN yarn install
+COPY ./cms .
 
-#RUN strapi build
+RUN strapi build
 
+CMD ["strapi", "start"]
+EXPOSE 1337

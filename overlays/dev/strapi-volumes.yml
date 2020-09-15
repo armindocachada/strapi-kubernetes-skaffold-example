@@ -1,0 +1,27 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: strapi-volume
+  labels:
+    type: local
+spec:
+  storageClassName: strapi-sc
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/Users/acachada/projects/strapi-kubernetes-skaffold-example/cms/persistent"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-sc-strapi
+spec:
+  storageClassName: strapi-sc
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi

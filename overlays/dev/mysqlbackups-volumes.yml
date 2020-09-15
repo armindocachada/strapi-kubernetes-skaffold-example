@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-backups-volume
+  labels:
+    type: local
+spec:
+  storageClassName: mysql-backups-sc
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/Users/acachada/projects/strapi-kubernetes-skaffold-example/cms/db"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-sc-mysqlbackups
+spec:
+  storageClassName: mysql-backups-sc
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi

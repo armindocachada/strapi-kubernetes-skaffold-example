@@ -6,8 +6,8 @@ COPY ./cms/package.json .
 RUN yarn install
 
 COPY ./cms .
-
+RUN ln -s  /persistent/api /app/api
 RUN strapi build
 
-CMD ["strapi", "start"]
+CMD ["strapi", "develop"]
 EXPOSE 1337

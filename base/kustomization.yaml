@@ -10,3 +10,4 @@ secretGenerator:
 resources:
   - mysql-deployment.yaml
   - cms-deployment.yaml
+  - frontend-deployment.yaml

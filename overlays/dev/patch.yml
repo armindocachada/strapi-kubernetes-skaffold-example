@@ -1,0 +1,24 @@
+---
+#apiVersion: apps/v1
+# kind: Deployment
+#  metadata:
+#    name: cms-mysql
+#  spec:
+#
+
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: cms-mysql
+spec:
+  template:
+    spec:
+      containers:
+        - name: mysql
+          volumeMounts:
+          - name: backups-persistent-storage
+            mountPath: /docker-entrypoint-initdb.d
+      volumes:
+      - name: backups-persistent-storage
+        persistentVolumeClaim:
+          claimName: pvc-sc-mysqlbackups

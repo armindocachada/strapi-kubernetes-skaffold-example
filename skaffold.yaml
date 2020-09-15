@@ -9,13 +9,15 @@ build:
     sync:
       infer:
         - 'cms/*'
-#  - image: example/frontend
-#    context: ..
-#    docker:
-#      dockerfile: Dockerfile_frontend
-#    sync:
-#      infer:
-#        - 'front-end/*'
+  - image: example/frontend
+    context: .
+    docker:
+      dockerfile: Dockerfile_frontend
+    sync:
+      infer:
+        - 'front-end/*'
 
 deploy:
-  kustomize: {}
+  kustomize:
+    paths:
+    - overlays/dev
